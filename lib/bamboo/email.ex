@@ -90,7 +90,7 @@ defmodule Bamboo.Email do
       assigns: %{},
       private: %{}
 
-  alias Bamboo.Email
+  alias Bamboo.{Email, Attachment}
 
   @address_functions ~w(from to cc bcc)a
   @attribute_pipe_functions ~w(subject text_body html_body)a
@@ -220,7 +220,10 @@ defmodule Bamboo.Email do
       #...
     end
   """
+  def put_attachment(%__MODULE__{attachments: attachments} = email, %Attachment{filename: _filename, data: _data} = attachment) do
+    %{email | attachments: [attachment | attachments]}
+  end
   def put_attachment(%__MODULE__{attachments: attachments} = email, path, opts \\ []) do
-    %{email | attachments: [Bamboo.Attachment.new(path, opts) | attachments]}
+    %{email | attachments: [Bamboo.Attachment.new_from_file(path, opts) | attachments]}
   end
 end

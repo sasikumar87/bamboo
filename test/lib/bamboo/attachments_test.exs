@@ -5,27 +5,27 @@ defmodule Bamboo.AttachmentTest do
 
   test "create an attachment" do
     path = Path.join(__DIR__, "../../support/attachment.docx")
-    attachment = Attachment.new(path)
+    attachment = Attachment.new_from_file(path)
     assert attachment.content_type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     assert attachment.filename == "attachment.docx"
-    assert attachment.path == path
+    assert attachment.data
   end
 
   test "create an attachment with an unknown content type" do
     path = Path.join(__DIR__, "../../support/attachment.unknown")
-    attachment = Attachment.new(path)
+    attachment = Attachment.new_from_file(path)
     assert attachment.content_type == "application/octet-stream"
   end
 
   test "create an attachment with a specified file name" do
     path = Path.join(__DIR__, "../../support/attachment.docx")
-    attachment = Attachment.new(path, filename: "my-test-name.doc")
+    attachment = Attachment.new_from_file(path, filename: "my-test-name.doc")
     assert attachment.filename == "my-test-name.doc"
   end
 
   test "create an attachment with a specified content type" do
     path = Path.join(__DIR__, "../../support/attachment.docx")
-    attachment = Attachment.new(path, content_type: "application/msword")
+    attachment = Attachment.new_from_file(path, content_type: "application/msword")
     assert attachment.content_type == "application/msword"
   end
 
@@ -34,10 +34,10 @@ defmodule Bamboo.AttachmentTest do
     upload = %Plug.Upload{filename: "test.docx",
                           content_type: "application/msword",
                           path: path}
-    attachment = Attachment.new(upload)
+    attachment = Attachment.new_from_file(upload)
     assert attachment.content_type == "application/msword"
     assert attachment.filename == "test.docx"
-    assert attachment.path == path
+    assert attachment.data
   end
 
   test "create an attachment from a Plug Upload struct with overrides" do
@@ -45,9 +45,9 @@ defmodule Bamboo.AttachmentTest do
     upload = %Plug.Upload{filename: "test.docx",
                           content_type: "application/msword",
                           path: path}
-    attachment = Attachment.new(upload, filename: "my-attachment.doc", content_type: "application/other")
+    attachment = Attachment.new_from_file(upload, filename: "my-attachment.doc", content_type: "application/other")
     assert attachment.content_type == "application/other"
     assert attachment.filename == "my-attachment.doc"
-    assert attachment.path == path
+    assert attachment.data
   end
 end

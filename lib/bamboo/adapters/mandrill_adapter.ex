@@ -112,7 +112,7 @@ defmodule Bamboo.MandrillAdapter do
       %{
         name: att.filename,
         type: att.content_type,
-        content: Base.encode64(File.read!(att.path))
+        content: Base.encode64(att.data)
       }
     end)
   end
