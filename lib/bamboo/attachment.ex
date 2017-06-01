@@ -16,7 +16,7 @@ defmodule Bamboo.Attachment do
   def new_from_file(path, opts \\ [])
   if Code.ensure_loaded?(Plug) do
     def new_from_file(%Plug.Upload{filename: filename, content_type: content_type, path: path}, opts), do:
-      new_from_file(path, Dict.merge([filename: filename, content_type: content_type], opts))
+      new_from_file(path, Keyword.merge([filename: filename, content_type: content_type], opts))
   end
   def new_from_file(path, opts) do
     filename = opts[:filename] || Path.basename(path)
