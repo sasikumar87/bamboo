@@ -64,7 +64,7 @@ defmodule Bamboo.MailgunAdapter do
 
   defp full_uri(config) do
     Application.get_env(:bamboo, :mailgun_base_uri, @base_uri)
-    <> "/" <> config.domain <> "/messages"
+    <> "/" <> config.domain <> @api_endpoint
   end
 
   defp headers(%Email{} = email, config) do
