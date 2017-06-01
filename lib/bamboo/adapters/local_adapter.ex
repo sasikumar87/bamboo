@@ -32,4 +32,7 @@ defmodule Bamboo.LocalAdapter do
   end
 
   def handle_config(config), do: config
+
+  @doc false
+  def supports_attachments?, do: true
 end
